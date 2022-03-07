@@ -11,28 +11,39 @@ const TITLES = [
   'Заголовок объявления 9',
   'Заголовок объявления 10'
 ];
-const LOCATION_RANGES = {
-  latMin: 35.65000,
-  latMax: 35.70000,
-  lngMin: 139.70000,
-  lngMax: 139.80000,
+const LocationRange = {
+  LAT: {
+    MIN: 35.65000,
+    MAX: 35.70000,
+  },
+
+  LNG: {
+    MIN: 139.70000,
+    MAX: 139.80000,
+  },
 };
-const HOUSING_TYPES = [{
-  type: 'palace',
-  minPrice: 10000,
-}, {
-  type: 'flat',
-  minPrice: 1000,
-}, {
-  type: 'house',
-  minPrice: 5000,
-}, {
-  type: 'bungalow',
-  minPrice: 0,
-}, {
-  type: 'hotel',
-  minPrice: 3000,
-}];
+const HousingType = {
+  PALACE: {
+    TYPE: 'palace',
+    MIN_PRICE: 10000,
+  },
+  FLAT: {
+    TYPE: 'flat',
+    MIN_PRICE: 1000,
+  },
+  HOUSE: {
+    TYPE: 'house',
+    MIN_PRICE: 5000,
+  },
+  BUNGALOW: {
+    TYPE: 'bungalow',
+    MIN_PRICE: 0,
+  },
+  HOTEL: {
+    TYPE: 'hotel',
+    MIN_PRICE: 3000,
+  },
+};
 const MAX_PRICE = 100000;
 const CHECKIN_CHECKOUT_VALUES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -53,6 +64,15 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
+const RoomsRange = {
+  MIN: 1,
+  MAX: 100,
+};
+const GuestsRange = {
+  MIN: 1,
+  MAX: 3,
+};
+const LOCATION_ACCURACY = 5;
 
 const getRandomNumber = (min, max, isInteger = true, depth = 1) => {
   try {
@@ -85,18 +105,6 @@ const createAdvertisements = () => {
   };
 
   const set = getSet();
-  const type = HOUSING_TYPES[getRandomNumber(0, HOUSING_TYPES.length - 1)].type;
-
-  const getAvatar = () => `img/avatars/user${set[0] < 10 ? `0${set[0]}` : set[0]}.png`;
-  const getTitle = () => TITLES[set[0]];
-
-  const getPrice = () => {
-    const minPrice = HOUSING_TYPES.find((el) => el.type === type).minPrice;
-    return getRandomNumber(minPrice, MAX_PRICE);
-  };
-
-  const latitude = getRandomNumber(LOCATION_RANGES.latMin, LOCATION_RANGES.latMax, false, 5);
-  const longitude = getRandomNumber(LOCATION_RANGES.lngMin, LOCATION_RANGES.lngMax, false, 5);
 
   const getRandomUniqueArray = (array) => {
     const newArrayLength = getRandomNumber(1, array.length);
@@ -110,30 +118,42 @@ const createAdvertisements = () => {
     });
   };
 
-  const getPhotos = () => getRandomUniqueArray(PHOTOS);
+  const createAdvertisement = () => {
+    const latitude = getRandomNumber(LocationRange.LAT.MIN, LocationRange.LAT.MAX, false, LOCATION_ACCURACY);
+    const longitude = getRandomNumber(LocationRange.LNG.MIN, LocationRange.LNG.MAX, false, LOCATION_ACCURACY);
+    const type = Object.keys(HousingType)[getRandomNumber(0, Object.keys(HousingType).length - 1)];
 
-  const createAdvertisement = () => ({
-    author: {
-      avatar: getAvatar(),
-    },
-    offer: {
-      title: getTitle(),
-      address: `${latitude}, ${longitude}`,
-      price: getPrice(),
-      type: type,
-      rooms: getRandomNumber(1, 100),
-      guests: getRandomNumber(1, 3),
-      checkin: CHECKIN_CHECKOUT_VALUES[getRandomNumber(0, CHECKIN_CHECKOUT_VALUES.length - 1)],
-      checkout: CHECKIN_CHECKOUT_VALUES[getRandomNumber(0, CHECKIN_CHECKOUT_VALUES.length - 1)],
-      features: getRandomUniqueArray(FEATURES),
-      description: DESCRIPTIONS[set[0]],
-      photos: getPhotos(),
-    },
-    location: {
-      lat: latitude,
-      lng: longitude,
-    },
-  });
+    const getPhotos = () => getRandomUniqueArray(PHOTOS);
+    const getAvatar = () => `img/avatars/user${set[0] < 10 ? `0${set[0]}` : set[0]}.png`;
+    const getTitle = () => TITLES[set[0]];
+    const getPrice = () => {
+      const minPrice = HousingType[type].MIN_PRICE;
+      return getRandomNumber(minPrice, MAX_PRICE);
+    };
+
+    return {
+      author: {
+        avatar: getAvatar(),
+      },
+      offer: {
+        title: getTitle(),
+        address: `${latitude}, ${longitude}`,
+        price: getPrice(),
+        type: HousingType[type].TYPE,
+        rooms: getRandomNumber(RoomsRange.MIN, RoomsRange.MAX),
+        guests: getRandomNumber(GuestsRange.MIN, GuestsRange.MAX),
+        checkin: CHECKIN_CHECKOUT_VALUES[getRandomNumber(0, CHECKIN_CHECKOUT_VALUES.length - 1)],
+        checkout: CHECKIN_CHECKOUT_VALUES[getRandomNumber(0, CHECKIN_CHECKOUT_VALUES.length - 1)],
+        features: getRandomUniqueArray(FEATURES),
+        description: DESCRIPTIONS[set[0]],
+        photos: getPhotos(),
+      },
+      location: {
+        lat: latitude,
+        lng: longitude,
+      },
+    };
+  };
 
   const similarAdvertisements = Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map(() => {
     const element = createAdvertisement();
