@@ -79,7 +79,7 @@ const GuestsRange = {
 };
 const LOCATION_ACCURACY = 5;
 
-const createAdvertisements = () => {
+const getAdvertisements = () => {
   const getSet = () => {
     const arr = new Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map((el, i) => i);
     return arr.sort(() => Math.random() - 0.5);
@@ -93,7 +93,7 @@ const createAdvertisements = () => {
     const type = Object.keys(HousingType)[getRandomNumber(0, Object.keys(HousingType).length - 1)];
 
     const getPhotos = () => getRandomUniqueArray(PHOTOS);
-    const getAvatar = () => `img/avatars/user${set[0] < 10 ? `0${set[0]}` : set[0]}.png`;
+    const getAvatar = () => `img/avatars/user${set[0]+1 < 10 ? `0${set[0]+1}` : set[0]+1}.png`;
     const getTitle = () => TITLES[set[0]];
     const getPrice = () => {
       const minPrice = HousingType[type].MIN_PRICE;
@@ -133,4 +133,4 @@ const createAdvertisements = () => {
   return similarAdvertisements;
 };
 
-createAdvertisements();
+export {getAdvertisements};
