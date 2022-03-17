@@ -133,4 +133,4 @@ const getAdvertisements = () => {
   return similarAdvertisements;
 };
 
-export {getAdvertisements};
+export {getAdvertisements, HousingType, MAX_PRICE};
