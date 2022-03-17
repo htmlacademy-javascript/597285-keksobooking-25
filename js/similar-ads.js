@@ -20,12 +20,8 @@ const createSimilarAds = (advertisements) => {
     }
   };
 
-  advertisements.forEach(({
-    author,
-    offer,
-  }) => {
-
-    const advertisementElement = similarAdsTemplate.cloneNode(true);
+  const createPopup = (template, fragment, author, offer) => {
+    const advertisementElement = template.cloneNode(true);
 
     advertisementElement.querySelector('.popup__title').textContent = offer.title;
     advertisementElement.querySelector('.popup__text--address').textContent = offer.address;
@@ -76,7 +72,15 @@ const createSimilarAds = (advertisements) => {
 
     advertisementElement.querySelector('.popup__avatar').src = author.avatar;
 
-    similarAdsFragment.appendChild(advertisementElement);
+    fragment.appendChild(advertisementElement);
+
+  };
+
+  advertisements.forEach(({
+    author,
+    offer,
+  }) => {
+    createPopup(similarAdsTemplate, similarAdsFragment, author, offer);
   });
 
   similarAdsContainer.appendChild(similarAdsFragment);
