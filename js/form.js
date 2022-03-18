@@ -1,40 +1,44 @@
 import {
   HousingType,
   MAX_PRICE,
+  FormTitleLengthRange,
 } from './data.js';
 
 const createFormValidator = () => {
   const form = document.querySelector('.ad-form');
+  const titleInput = form.querySelector('#title');
+  const priceInput = form.querySelector('#price');
+  const typeInput = form.querySelector('#type');
+  const roomNumberInput = form.querySelector('#room_number');
+  const capacityInput = form.querySelector('#capacity');
+
+  titleInput.removeAttribute('minlength');
+  titleInput.removeAttribute('maxlength');
+  priceInput.removeAttribute('max');
 
   const pristine = new Pristine(form, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
-    // errorTextClass: 'ad-form__error-text',
-    errorTextTag: 'span',
   });
 
-  const validateTitle = (value) => value.length >= 30 && value.length <= 100;
+  const validateTitle = (value) => value.length >= FormTitleLengthRange.MIN && value.length <= FormTitleLengthRange.MAX;
 
   const validatePrice = (value) => {
-    const type = form.querySelector('#type').value;
-
-    // обернуть в try catch
+    const type = typeInput.value;
     const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
 
     return minPrice <= value && value <= MAX_PRICE;
   };
 
   const getPriceMessage = () => {
-    const type = form.querySelector('#type').value;
-
-    // обернуть в try catch
+    const type = typeInput.value;
     const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
 
     return `Цена от ${minPrice} до ${MAX_PRICE}`;
   };
 
   const validateCapacity = (value) => {
-    const roomNumber = form.querySelector('#room_number').value;
+    const roomNumber = roomNumberInput.value;
     switch (+roomNumber) {
       case 1:
         return +value === 1;
@@ -48,7 +52,7 @@ const createFormValidator = () => {
   };
 
   const getCapacityMessage = () => {
-    const roomNumber = form.querySelector('#room_number').value;
+    const roomNumber = roomNumberInput.value;
     switch (+roomNumber) {
       case 1:
         return 'Выберите «для 1 гостя»';
@@ -61,19 +65,21 @@ const createFormValidator = () => {
     }
   };
 
-  pristine.addValidator(form.querySelector('#title'), validateTitle, 'Длина от 30 до 100 символов');
-  pristine.addValidator(form.querySelector('#price'), validatePrice, getPriceMessage);
-  pristine.addValidator(form.querySelector('#capacity'), validateCapacity, getCapacityMessage);
+  const getTitleMessage = () => `Длина от ${FormTitleLengthRange.MIN} до ${FormTitleLengthRange.MAX} символов`;
 
   const typeChangeHandler = () => {
-    pristine.validate(form.querySelector('#price'));
+    pristine.validate(priceInput);
   };
   const roomsChangeHandler = () => {
-    pristine.validate(form.querySelector('#capacity'));
+    pristine.validate(capacityInput);
   };
 
-  form.querySelector('#type').addEventListener('change', typeChangeHandler);
-  form.querySelector('#room_number').addEventListener('change', roomsChangeHandler);
+  pristine.addValidator(titleInput, validateTitle, getTitleMessage);
+  pristine.addValidator(priceInput, validatePrice, getPriceMessage);
+  pristine.addValidator(capacityInput, validateCapacity, getCapacityMessage);
+
+  typeInput.addEventListener('change', typeChangeHandler);
+  roomNumberInput.addEventListener('change', roomsChangeHandler);
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();

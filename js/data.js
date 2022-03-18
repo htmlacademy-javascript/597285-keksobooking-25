@@ -78,6 +78,10 @@ const GuestsRange = {
   MAX: 3,
 };
 const LOCATION_ACCURACY = 5;
+const FormTitleLengthRange = {
+  MIN: 30,
+  MAX: 100,
+};
 
 const getAdvertisements = () => {
   const getSet = () => {
@@ -93,7 +97,7 @@ const getAdvertisements = () => {
     const type = Object.keys(HousingType)[getRandomNumber(0, Object.keys(HousingType).length - 1)];
 
     const getPhotos = () => getRandomUniqueArray(PHOTOS);
-    const getAvatar = () => `img/avatars/user${set[0]+1 < 10 ? `0${set[0]+1}` : set[0]+1}.png`;
+    const getAvatar = () => `img/avatars/user${set[0] + 1 < 10 ? `0${set[0] + 1}` : set[0] + 1}.png`;
     const getTitle = () => TITLES[set[0]];
     const getPrice = () => {
       const minPrice = HousingType[type].MIN_PRICE;
@@ -133,4 +137,4 @@ const getAdvertisements = () => {
   return similarAdvertisements;
 };
 
-export {getAdvertisements, HousingType, MAX_PRICE};
+export {getAdvertisements, HousingType, MAX_PRICE, FormTitleLengthRange};
