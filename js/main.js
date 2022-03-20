@@ -7,8 +7,13 @@ import {
 } from './similar-ads.js';
 
 import {
-  createFormValidator
+  createFormValidator,
+  enableActiveState,
+  disableActiveState,
 } from './form.js';
+
+disableActiveState();
+enableActiveState();
 
 createFormValidator();
 
