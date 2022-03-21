@@ -87,6 +87,42 @@ const createFormValidator = () => {
   });
 };
 
+const disableActiveState = () => {
+  const form = document.querySelector('.ad-form');
+  const formFieldsetsList = form.querySelectorAll('fieldset');
+  const mapFilters = document.querySelector('.map__filters');
+
+  form.classList.add('ad-form--disabled');
+  formFieldsetsList.forEach((item) => {
+    item.setAttribute('disabled', '');
+  });
+
+  mapFilters.classList.add('map__filters--disabled');
+
+  for (let i = 0; i < mapFilters.children.length; i++) {
+    mapFilters.children[i].setAttribute('disabled', '');
+  }
+};
+
+const enableActiveState = () => {
+  const form = document.querySelector('.ad-form');
+  const formFieldsetsList = form.querySelectorAll('fieldset');
+  const mapFilters = document.querySelector('.map__filters');
+
+  form.classList.remove('ad-form--disabled');
+  formFieldsetsList.forEach((item) => {
+    item.removeAttribute('disabled', '');
+  });
+
+  mapFilters.classList.remove('map__filters--disabled');
+
+  for (let i = 0; i < mapFilters.children.length; i++) {
+    mapFilters.children[i].removeAttribute('disabled', '');
+  }
+};
+
 export {
-  createFormValidator
+  createFormValidator,
+  enableActiveState,
+  disableActiveState,
 };
