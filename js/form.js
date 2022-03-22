@@ -4,8 +4,12 @@ import {
   FormTitleLengthRange,
 } from './data.js';
 
+const form = document.querySelector('.ad-form');
+const formFieldsetsList = form.querySelectorAll('fieldset');
+const mapFiltersContainer = document.querySelector('.map__filters');
+const mapFiltersContainerElements = Array.from(mapFiltersContainer.children);
+
 const createFormValidator = () => {
-  const form = document.querySelector('.ad-form');
   const titleInput = form.querySelector('#title');
   const priceInput = form.querySelector('#price');
   const typeInput = form.querySelector('#type');
@@ -88,37 +92,29 @@ const createFormValidator = () => {
 };
 
 const disableActiveState = () => {
-  const form = document.querySelector('.ad-form');
-  const formFieldsetsList = form.querySelectorAll('fieldset');
-  const mapFilters = document.querySelector('.map__filters');
-
   form.classList.add('ad-form--disabled');
   formFieldsetsList.forEach((item) => {
     item.setAttribute('disabled', '');
   });
 
-  mapFilters.classList.add('map__filters--disabled');
+  mapFiltersContainer.classList.add('map__filters--disabled');
 
-  for (let i = 0; i < mapFilters.children.length; i++) {
-    mapFilters.children[i].setAttribute('disabled', '');
-  }
+  mapFiltersContainerElements.forEach((element) => {
+    element.setAttribute('disabled', '');
+  });
 };
 
 const enableActiveState = () => {
-  const form = document.querySelector('.ad-form');
-  const formFieldsetsList = form.querySelectorAll('fieldset');
-  const mapFilters = document.querySelector('.map__filters');
-
   form.classList.remove('ad-form--disabled');
   formFieldsetsList.forEach((item) => {
     item.removeAttribute('disabled', '');
   });
 
-  mapFilters.classList.remove('map__filters--disabled');
+  mapFiltersContainer.classList.remove('map__filters--disabled');
 
-  for (let i = 0; i < mapFilters.children.length; i++) {
-    mapFilters.children[i].removeAttribute('disabled', '');
-  }
+  mapFiltersContainerElements.forEach((element) => {
+    element.removeAttribute('disabled', '');
+  });
 };
 
 export {
