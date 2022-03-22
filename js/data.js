@@ -83,6 +83,13 @@ const FormTitleLengthRange = {
   MAX: 100,
 };
 
+const CapacityMap = {
+  1: ['для 1 гостя'],
+  2: ['для 1 гостя', 'для 2 гостей'],
+  3: ['для 1 гостя', 'для 2 гостей', 'для 3 гостей'],
+  100: ['не для гостей'],
+};
+
 const getAdvertisements = () => {
   const getSet = () => {
     const arr = new Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map((el, i) => i);
@@ -137,4 +144,10 @@ const getAdvertisements = () => {
   return similarAdvertisements;
 };
 
-export {getAdvertisements, HousingType, MAX_PRICE, FormTitleLengthRange};
+export {
+  getAdvertisements,
+  HousingType,
+  MAX_PRICE,
+  FormTitleLengthRange,
+  CapacityMap
+};

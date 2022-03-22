@@ -2,6 +2,7 @@ import {
   HousingType,
   MAX_PRICE,
   FormTitleLengthRange,
+  CapacityMap,
 } from './data.js';
 
 const form = document.querySelector('.ad-form');
@@ -43,30 +44,12 @@ const createFormValidator = () => {
 
   const validateCapacity = (value) => {
     const roomNumber = roomNumberInput.value;
-    switch (+roomNumber) {
-      case 1:
-        return +value === 1;
-      case 2:
-        return +value === 1 || +value === 2;
-      case 3:
-        return +value === 1 || +value === 2 || +value === 3;
-      case 100:
-        return +value === 0;
-    }
+    return CapacityMap[roomNumber].includes(value);
   };
 
   const getCapacityMessage = () => {
     const roomNumber = roomNumberInput.value;
-    switch (+roomNumber) {
-      case 1:
-        return 'Выберите «для 1 гостя»';
-      case 2:
-        return 'Выберите «для 2 гостей» или «для 1 гостя»';
-      case 3:
-        return 'Выберите «для 3 гостей», «для 2 гостей» или «для 1 гостя»';
-      case 100:
-        return 'Выберите «не для гостей»';
-    }
+    return `Выберите "${CapacityMap[roomNumber].join('" или "')}"`;
   };
 
   const getTitleMessage = () => `Длина от ${FormTitleLengthRange.MIN} до ${FormTitleLengthRange.MAX} символов`;
