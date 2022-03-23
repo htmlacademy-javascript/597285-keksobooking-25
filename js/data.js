@@ -83,6 +83,30 @@ const FormTitleLengthRange = {
   MAX: 100,
 };
 
+const CapacityMap = {
+  1: ['для 1 гостя'],
+  2: ['для 1 гостя', 'для 2 гостей'],
+  3: ['для 1 гостя', 'для 2 гостей', 'для 3 гостей'],
+  100: ['не для гостей'],
+};
+
+const MapStartLocation = {
+  LAT: 35.68250,
+  LNG: 139.75300,
+};
+
+const MAP_START_ZOOM = 13;
+
+const MarkerSize = {
+  WIDTH: 40,
+  HEIGHT: 40,
+};
+
+const MainMarkerSize = {
+  WIDTH: 52,
+  HEIGHT: 52,
+};
+
 const getAdvertisements = () => {
   const getSet = () => {
     const arr = new Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map((el, i) => i);
@@ -137,4 +161,15 @@ const getAdvertisements = () => {
   return similarAdvertisements;
 };
 
-export {getAdvertisements, HousingType, MAX_PRICE, FormTitleLengthRange};
+export {
+  getAdvertisements,
+  HousingType,
+  MAX_PRICE,
+  FormTitleLengthRange,
+  CapacityMap,
+  MapStartLocation,
+  MAP_START_ZOOM,
+  LOCATION_ACCURACY,
+  MarkerSize,
+  MainMarkerSize,
+};
