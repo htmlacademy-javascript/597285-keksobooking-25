@@ -1,22 +1,19 @@
 import {
-  getAdvertisements
+  getAdvertisements,
 } from './data.js';
 
 import {
-  createSimilarAds
-} from './similar-ads.js';
-
-import {
-  createFormValidator,
-  enableActiveState,
   disableActiveState,
 } from './form.js';
 
-disableActiveState();
-enableActiveState();
+import {
+  renderMap,
+  renderSimilarAdvertisements,
+} from './map.js';
 
-createFormValidator();
+disableActiveState();
 
 const advertisements = getAdvertisements();
 
-createSimilarAds(advertisements);
+renderMap();
+renderSimilarAdvertisements(advertisements);

@@ -90,6 +90,23 @@ const CapacityMap = {
   100: ['не для гостей'],
 };
 
+const MapStartLocation = {
+  LAT: 35.68250,
+  LNG: 139.75300,
+};
+
+const MAP_START_ZOOM = 13;
+
+const MarkerSize = {
+  WIDTH: 40,
+  HEIGHT: 40,
+};
+
+const MainMarkerSize = {
+  WIDTH: 52,
+  HEIGHT: 52,
+};
+
 const getAdvertisements = () => {
   const getSet = () => {
     const arr = new Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map((el, i) => i);
@@ -149,5 +166,10 @@ export {
   HousingType,
   MAX_PRICE,
   FormTitleLengthRange,
-  CapacityMap
+  CapacityMap,
+  MapStartLocation,
+  MAP_START_ZOOM,
+  LOCATION_ACCURACY,
+  MarkerSize,
+  MainMarkerSize,
 };
