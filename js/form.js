@@ -7,29 +7,29 @@ import {
   MapStartLocation,
 } from './data.js';
 
-const form = document.querySelector('.ad-form');
-const formFieldsetsList = form.querySelectorAll('fieldset');
-const mapFiltersContainer = document.querySelector('.map__filters');
-const mapFiltersContainerElements = Array.from(mapFiltersContainer.children);
-const priceInput = form.querySelector('#price');
-const addressInput = form.querySelector('#address');
-const sliderElement = form.querySelector('.ad-form__slider');
-const typeInput = form.querySelector('#type');
+const formElement = document.querySelector('.ad-form');
+const formFieldsetElements = formElement.querySelectorAll('fieldset');
+const mapFiltersContainerElement = document.querySelector('.map__filters');
+const mapFiltersContainerElements = Array.from(mapFiltersContainerElement.children);
+const priceInputElement = formElement.querySelector('#price');
+const addressInputElement = formElement.querySelector('#address');
+const sliderElement = formElement.querySelector('.ad-form__slider');
+const typeInputElement = formElement.querySelector('#type');
 
 const fillAddressInput = (lat, lng) => {
-  addressInput.value = `${lat.toFixed(LOCATION_ACCURACY)} ${lng.toFixed(LOCATION_ACCURACY)}`;
+  addressInputElement.value = `${lat.toFixed(LOCATION_ACCURACY)} ${lng.toFixed(LOCATION_ACCURACY)}`;
 };
 
 const createFormValidator = () => {
-  const titleInput = form.querySelector('#title');
-  const roomNumberInput = form.querySelector('#room_number');
-  const capacityInput = form.querySelector('#capacity');
+  const titleInputElement = formElement.querySelector('#title');
+  const roomNumberInputElement = formElement.querySelector('#room_number');
+  const capacityInputElement = formElement.querySelector('#capacity');
 
-  titleInput.removeAttribute('minlength');
-  titleInput.removeAttribute('maxlength');
-  priceInput.removeAttribute('max');
+  titleInputElement.removeAttribute('minlength');
+  titleInputElement.removeAttribute('maxlength');
+  priceInputElement.removeAttribute('max');
 
-  const pristine = new Pristine(form, {
+  const pristine = new Pristine(formElement, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
   });
@@ -37,53 +37,53 @@ const createFormValidator = () => {
   const validateTitle = (value) => value.length >= FormTitleLengthRange.MIN && value.length <= FormTitleLengthRange.MAX;
 
   const validatePrice = (value) => {
-    const type = typeInput.value;
+    const type = typeInputElement.value;
     const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
 
     return minPrice <= value && value <= MAX_PRICE;
   };
 
   const getPriceMessage = () => {
-    const type = typeInput.value;
+    const type = typeInputElement.value;
     const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
 
     return `Цена от ${minPrice} до ${MAX_PRICE}`;
   };
 
   const validateCapacity = (value) => {
-    const roomNumber = roomNumberInput.value;
+    const roomNumber = roomNumberInputElement.value;
     return CapacityMap[roomNumber].includes(value);
   };
 
   const getCapacityMessage = () => {
-    const roomNumber = roomNumberInput.value;
+    const roomNumber = roomNumberInputElement.value;
     return `Выберите "${CapacityMap[roomNumber].join('" или "')}"`;
   };
 
   const getTitleMessage = () => `Длина от ${FormTitleLengthRange.MIN} до ${FormTitleLengthRange.MAX} символов`;
 
   const typeChangeHandler = () => {
-    pristine.validate(priceInput);
+    pristine.validate(priceInputElement);
   };
   const roomsChangeHandler = () => {
-    pristine.validate(capacityInput);
+    pristine.validate(capacityInputElement);
   };
 
-  pristine.addValidator(titleInput, validateTitle, getTitleMessage);
-  pristine.addValidator(priceInput, validatePrice, getPriceMessage);
-  pristine.addValidator(capacityInput, validateCapacity, getCapacityMessage);
+  pristine.addValidator(titleInputElement, validateTitle, getTitleMessage);
+  pristine.addValidator(priceInputElement, validatePrice, getPriceMessage);
+  pristine.addValidator(capacityInputElement, validateCapacity, getCapacityMessage);
 
-  typeInput.addEventListener('change', typeChangeHandler);
-  roomNumberInput.addEventListener('change', roomsChangeHandler);
+  typeInputElement.addEventListener('change', typeChangeHandler);
+  roomNumberInputElement.addEventListener('change', roomsChangeHandler);
 
-  form.addEventListener('submit', (evt) => {
+  formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
   });
 };
 
 const createNoUiSlider = () => {
-  const type = typeInput.value;
+  const type = typeInputElement.value;
   const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
 
   noUiSlider.create(sliderElement, {
@@ -108,11 +108,11 @@ const createNoUiSlider = () => {
   });
 
   sliderElement.noUiSlider.on('update', () => {
-    priceInput.value = sliderElement.noUiSlider.get();
+    priceInputElement.value = sliderElement.noUiSlider.get();
   });
 
   const typeChangeHandler = () => {
-    const currentType = typeInput.value;
+    const currentType = typeInputElement.value;
     const currentMinPrice = HousingType[currentType.toUpperCase()].MIN_PRICE;
 
     sliderElement.noUiSlider.updateOptions({
@@ -124,21 +124,21 @@ const createNoUiSlider = () => {
   };
 
   const priceInputHandler = () => {
-    const newPrice = priceInput.value;
+    const newPrice = priceInputElement.value;
     sliderElement.noUiSlider.set(newPrice);
   };
 
-  typeInput.addEventListener('change', typeChangeHandler);
-  priceInput.addEventListener('change', priceInputHandler);
+  typeInputElement.addEventListener('change', typeChangeHandler);
+  priceInputElement.addEventListener('change', priceInputHandler);
 };
 
 const disableActiveState = () => {
-  form.classList.add('ad-form--disabled');
-  formFieldsetsList.forEach((item) => {
+  formElement.classList.add('ad-form--disabled');
+  formFieldsetElements.forEach((item) => {
     item.setAttribute('disabled', '');
   });
 
-  mapFiltersContainer.classList.add('map__filters--disabled');
+  mapFiltersContainerElement.classList.add('map__filters--disabled');
 
   mapFiltersContainerElements.forEach((element) => {
     element.setAttribute('disabled', '');
@@ -146,12 +146,12 @@ const disableActiveState = () => {
 };
 
 const enableActiveState = () => {
-  form.classList.remove('ad-form--disabled');
-  formFieldsetsList.forEach((item) => {
+  formElement.classList.remove('ad-form--disabled');
+  formFieldsetElements.forEach((item) => {
     item.removeAttribute('disabled', '');
   });
 
-  mapFiltersContainer.classList.remove('map__filters--disabled');
+  mapFiltersContainerElement.classList.remove('map__filters--disabled');
 
   mapFiltersContainerElements.forEach((element) => {
     element.removeAttribute('disabled', '');
