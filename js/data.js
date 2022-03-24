@@ -84,10 +84,10 @@ const FormTitleLengthRange = {
 };
 
 const CapacityMap = {
-  1: ['для 1 гостя'],
-  2: ['для 1 гостя', 'для 2 гостей'],
-  3: ['для 1 гостя', 'для 2 гостей', 'для 3 гостей'],
-  100: ['не для гостей'],
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
 };
 
 const MapStartLocation = {
@@ -105,6 +105,11 @@ const MarkerSize = {
 const MainMarkerSize = {
   WIDTH: 52,
   HEIGHT: 52,
+};
+
+const MarkersIcomUrls = {
+  MAIN_MARKER: '../img/main-pin.svg',
+  STANDART_MARKER: '../img/pin.svg',
 };
 
 const getAdvertisements = () => {
@@ -172,4 +177,5 @@ export {
   LOCATION_ACCURACY,
   MarkerSize,
   MainMarkerSize,
+  MarkersIcomUrls,
 };
