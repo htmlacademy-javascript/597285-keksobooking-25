@@ -107,6 +107,11 @@ const MainMarkerSize = {
   HEIGHT: 52,
 };
 
+const MarkersIcomUrls = {
+  MAIN_MARKER: '../img/main-pin.svg',
+  STANDART_MARKER: '../img/pin.svg',
+};
+
 const getAdvertisements = () => {
   const getSet = () => {
     const arr = new Array(NUMBER_OF_ADVERTISEMENTS).fill(undefined).map((el, i) => i);
@@ -172,4 +177,5 @@ export {
   LOCATION_ACCURACY,
   MarkerSize,
   MainMarkerSize,
+  MarkersIcomUrls,
 };

@@ -63,12 +63,8 @@ const createFormValidator = () => {
 
   const getTitleMessage = () => `Длина от ${FormTitleLengthRange.MIN} до ${FormTitleLengthRange.MAX} символов`;
 
-  const typeChangeHandler = () => {
-    pristine.validate(priceInputElement);
-  };
-  const roomsChangeHandler = () => {
-    pristine.validate(capacityInputElement);
-  };
+  const typeChangeHandler = () => pristine.validate(priceInputElement);
+  const roomsChangeHandler = () => pristine.validate(capacityInputElement);
 
   pristine.addValidator(titleInputElement, validateTitle, getTitleMessage);
   pristine.addValidator(priceInputElement, validatePrice, getPriceMessage);
@@ -96,15 +92,13 @@ const createNoUiSlider = () => {
     step: 1,
     connect: 'lower',
     format: {
-      to: function (value) {
+      to: (value) => {
         if (Number.isInteger(value)) {
           return value.toFixed(0);
         }
         return value.toFixed(1);
       },
-      from: function (value) {
-        return parseFloat(value);
-      },
+      from: (value) => parseFloat(value),
     },
   });
 
@@ -135,28 +129,20 @@ const createNoUiSlider = () => {
 
 const disableActiveState = () => {
   formElement.classList.add('ad-form--disabled');
-  formFieldsetElements.forEach((item) => {
-    item.setAttribute('disabled', '');
-  });
+  formFieldsetElements.forEach((item) => item.setAttribute('disabled', ''));
 
   mapFiltersContainerElement.classList.add('map__filters--disabled');
 
-  mapFiltersContainerElements.forEach((element) => {
-    element.setAttribute('disabled', '');
-  });
+  mapFiltersContainerElements.forEach((element) => element.setAttribute('disabled', ''));
 };
 
 const enableActiveState = () => {
   formElement.classList.remove('ad-form--disabled');
-  formFieldsetElements.forEach((item) => {
-    item.removeAttribute('disabled', '');
-  });
+  formFieldsetElements.forEach((item) => item.removeAttribute('disabled', ''));
 
   mapFiltersContainerElement.classList.remove('map__filters--disabled');
 
-  mapFiltersContainerElements.forEach((element) => {
-    element.removeAttribute('disabled', '');
-  });
+  mapFiltersContainerElements.forEach((element) => element.removeAttribute('disabled', ''));
 
   fillAddressInput(MapStartLocation.LAT, MapStartLocation.LNG);
   createNoUiSlider();

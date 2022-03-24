@@ -2,6 +2,7 @@ import {
   MainMarkerSize,
   MapStartLocation,
   MAP_START_ZOOM,
+  MarkersIcomUrls,
   MarkerSize,
 } from './data.js';
 import {
@@ -30,7 +31,7 @@ const renderMap = () => {
 
   const createMainMarker = () => {
     const mainIcon = L.icon({
-      iconUrl: '../img/main-pin.svg',
+      iconUrl: MarkersIcomUrls.MAIN_MARKER,
       iconSize: [MainMarkerSize.WIDTH, MainMarkerSize.HEIGHT],
       iconAnchor: [MainMarkerSize.WIDTH / 2, MainMarkerSize.HEIGHT],
     });
@@ -56,7 +57,7 @@ const renderMap = () => {
 
 const renderSimilarAdvertisements = (advertisements) => {
   const icon = L.icon({
-    iconUrl: '../img/pin.svg',
+    iconUrl: MarkersIcomUrls.STANDART_MARKER,
     iconSize: [MarkerSize.WIDTH, MarkerSize.HEIGHT],
     iconAnchor: [MarkerSize.WIDTH / 2, MarkerSize.HEIGHT],
   });
