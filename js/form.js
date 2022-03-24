@@ -51,13 +51,14 @@ const createFormValidator = () => {
   };
 
   const validateCapacity = (value) => {
-    const roomNumber = roomNumberInputElement.value;
-    return CapacityMap[roomNumber].includes(value);
+    const roomNumber = +roomNumberInputElement.value;
+    return CapacityMap[roomNumber].includes(+value);
   };
 
   const getCapacityMessage = () => {
     const roomNumber = roomNumberInputElement.value;
-    return `Выберите "${CapacityMap[roomNumber].join('" или "')}"`;
+    const allowedValuesTexts = CapacityMap[roomNumber].map((el) => capacityInputElement.querySelector(`option[value="${el}"]`).textContent);
+    return `Выберите "${allowedValuesTexts.join('" или "')}"`;
   };
 
   const getTitleMessage = () => `Длина от ${FormTitleLengthRange.MIN} до ${FormTitleLengthRange.MAX} символов`;
