@@ -73,6 +73,17 @@ const createFormValidator = () => {
   typeInputElement.addEventListener('change', typeChangeHandler);
   roomNumberInputElement.addEventListener('change', roomsChangeHandler);
 
+  const timeinElement = formElement.querySelector('#timein');
+  const timeoutElement = formElement.querySelector('#timeout');
+  const timeinElementHandler = () => {
+    timeoutElement.value = timeinElement.value;
+  };
+  const timeoutElementHandler = () => {
+    timeinElement.value = timeoutElement.value;
+  };
+  timeinElement.addEventListener('change', timeinElementHandler);
+  timeoutElement.addEventListener('change', timeoutElementHandler);
+
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     pristine.validate();
