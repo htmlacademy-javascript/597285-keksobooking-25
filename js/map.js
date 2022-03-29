@@ -16,6 +16,27 @@ import {
 
 const map = L.map('map-canvas');
 
+const mainIcon = L.icon({
+  iconUrl: MarkersIcomUrls.MAIN_MARKER,
+  iconSize: [MainMarkerSize.WIDTH, MainMarkerSize.HEIGHT],
+  iconAnchor: [MainMarkerSize.WIDTH / 2, MainMarkerSize.HEIGHT],
+});
+
+const mainMarker = L.marker({
+  lat: MapStartLocation.LAT,
+  lng: MapStartLocation.LNG,
+}, {
+  icon: mainIcon,
+  draggable: true,
+});
+
+const createMainMarker = () => {
+  mainMarker.addTo(map);
+  mainMarker.on('moveend', (evt) => {
+    fillAddressInput(evt.target.getLatLng().lat, evt.target.getLatLng().lng);
+  });
+};
+
 const renderMap = () => {
   map.on('load', () => {
     enableActiveState();
@@ -29,30 +50,13 @@ const renderMap = () => {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
-  const createMainMarker = () => {
-    const mainIcon = L.icon({
-      iconUrl: MarkersIcomUrls.MAIN_MARKER,
-      iconSize: [MainMarkerSize.WIDTH, MainMarkerSize.HEIGHT],
-      iconAnchor: [MainMarkerSize.WIDTH / 2, MainMarkerSize.HEIGHT],
-    });
-
-    const lat = MapStartLocation.LAT;
-    const lng = MapStartLocation.LNG;
-
-    const mainMarker = L.marker({
-      lat,
-      lng,
-    }, {
-      icon: mainIcon,
-      draggable: true,
-    });
-    mainMarker.addTo(map);
-    mainMarker.on('moveend', (evt) => {
-      fillAddressInput(evt.target.getLatLng().lat, evt.target.getLatLng().lng);
-    });
-  };
-
   createMainMarker();
+};
+
+const resetMap = () => {
+  map.closePopup();
+  mainMarker.setLatLng([MapStartLocation.LAT, MapStartLocation.LNG]);
+  fillAddressInput(MapStartLocation.LAT, MapStartLocation.LNG);
 };
 
 const renderSimilarAdvertisements = (advertisements) => {
@@ -65,12 +69,9 @@ const renderSimilarAdvertisements = (advertisements) => {
   const markerGroup = L.layerGroup().addTo(map);
 
   const createMarker = (advertisement) => {
-    const lat = advertisement.location.lat;
-    const lng = advertisement.location.lng;
-
     const marker = L.marker({
-      lat,
-      lng,
+      lat: advertisement.location.lat,
+      lng: advertisement.location.lng,
     }, {
       icon: icon,
     });
@@ -86,4 +87,5 @@ const renderSimilarAdvertisements = (advertisements) => {
 export {
   renderMap,
   renderSimilarAdvertisements,
+  resetMap,
 };
