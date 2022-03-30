@@ -158,16 +158,16 @@ const createFormValidator = () => {
   timeoutElement.addEventListener('change', timeoutElementHandler);
 
   const blockSubmitButton = () => {
-    submitButtonElement.disabled = true;
+    submitButtonElement.setAttribute('disabled', '');
     submitButtonElement.textContent = 'Сохраняю...';
   };
   const unblockSubmitButton = () => {
-    submitButtonElement.disabled = false;
+    submitButtonElement.removeAttribute('disabled', '');
     submitButtonElement.textContent = 'Опубликовать';
   };
 
-  const resetForm = (evt) => {
-    evt.preventDefault();
+  const resetForm = () => {
+    // evt.preventDefault();
     formElement.reset();
     pristine.reset();
     resetUiSlider();
@@ -186,8 +186,8 @@ const createFormValidator = () => {
       sendData(
         () => {
           unblockSubmitButton();
-          showSuccess();
           resetForm();
+          showSuccess();
         },
         () => {
           unblockSubmitButton();

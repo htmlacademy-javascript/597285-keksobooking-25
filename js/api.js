@@ -20,8 +20,7 @@ const sendData = (onSuccess, onFail, body) => {
     body: body,
   })
     .then((response) => {
-      console.log(response.status);
-      if (response.ok) {
+      if (response.status === 200) {
         onSuccess();
       } else {
         onFail();
