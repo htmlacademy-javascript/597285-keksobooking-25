@@ -1,4 +1,7 @@
 import {
+  sendData
+} from './api.js';
+import {
   HousingType,
   MAX_PRICE,
   FormTitleLengthRange,
@@ -6,6 +9,13 @@ import {
   LOCATION_ACCURACY,
   MapStartLocation,
 } from './data.js';
+import {
+  resetMap
+} from './map.js';
+import {
+  showError,
+  showSuccess
+} from './util.js';
 
 const formElement = document.querySelector('.ad-form');
 const formFieldsetElements = formElement.querySelectorAll('fieldset');
@@ -15,9 +25,72 @@ const priceInputElement = formElement.querySelector('#price');
 const addressInputElement = formElement.querySelector('#address');
 const sliderElement = formElement.querySelector('.ad-form__slider');
 const typeInputElement = formElement.querySelector('#type');
+const submitButtonElement = formElement.querySelector('.ad-form__submit');
+const resetButtonElement = formElement.querySelector('.ad-form__reset');
 
 const fillAddressInput = (lat, lng) => {
   addressInputElement.value = `${lat.toFixed(LOCATION_ACCURACY)} ${lng.toFixed(LOCATION_ACCURACY)}`;
+};
+
+const createNoUiSlider = () => {
+  const type = typeInputElement.value;
+  const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
+
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: minPrice,
+      max: MAX_PRICE,
+    },
+    start: minPrice,
+    step: 1,
+    connect: 'lower',
+    format: {
+      to: (value) => {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: (value) => parseFloat(value),
+    },
+  });
+
+  sliderElement.noUiSlider.on('update', () => {
+    priceInputElement.value = sliderElement.noUiSlider.get();
+  });
+
+  const typeChangeHandler = () => {
+    const currentType = typeInputElement.value;
+    const currentMinPrice = HousingType[currentType.toUpperCase()].MIN_PRICE;
+
+    sliderElement.noUiSlider.updateOptions({
+      range: {
+        min: currentMinPrice,
+        max: MAX_PRICE,
+      },
+    });
+  };
+
+  const priceInputHandler = () => {
+    const newPrice = priceInputElement.value;
+    sliderElement.noUiSlider.set(newPrice);
+  };
+
+  typeInputElement.addEventListener('change', typeChangeHandler);
+  priceInputElement.addEventListener('change', priceInputHandler);
+};
+
+const resetUiSlider = () => {
+  const type = typeInputElement.value;
+  const price = HousingType[type.toUpperCase()].MIN_PRICE;
+  priceInputElement.value = price;
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: price,
+      max: MAX_PRICE,
+    },
+  });
+  sliderElement.noUiSlider.set(price);
 };
 
 const createFormValidator = () => {
@@ -84,58 +157,46 @@ const createFormValidator = () => {
   timeinElement.addEventListener('change', timeinElementHandler);
   timeoutElement.addEventListener('change', timeoutElementHandler);
 
+  const blockSubmitButton = () => {
+    submitButtonElement.setAttribute('disabled', '');
+    submitButtonElement.textContent = 'Сохраняю...';
+  };
+  const unblockSubmitButton = () => {
+    submitButtonElement.removeAttribute('disabled', '');
+    submitButtonElement.textContent = 'Опубликовать';
+  };
+
+  const resetForm = () => {
+    // evt.preventDefault();
+    formElement.reset();
+    pristine.reset();
+    resetUiSlider();
+    resetMap();
+    mapFiltersContainerElement.reset();
+  };
+
+  resetButtonElement.addEventListener('click', resetForm);
+
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          unblockSubmitButton();
+          resetForm();
+          showSuccess();
+        },
+        () => {
+          unblockSubmitButton();
+          showError();
+        },
+        new FormData(evt.target)
+      );
+    }
   });
-};
-
-const createNoUiSlider = () => {
-  const type = typeInputElement.value;
-  const minPrice = HousingType[type.toUpperCase()].MIN_PRICE;
-
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: minPrice,
-      max: MAX_PRICE,
-    },
-    start: minPrice,
-    step: 1,
-    connect: 'lower',
-    format: {
-      to: (value) => {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: (value) => parseFloat(value),
-    },
-  });
-
-  sliderElement.noUiSlider.on('update', () => {
-    priceInputElement.value = sliderElement.noUiSlider.get();
-  });
-
-  const typeChangeHandler = () => {
-    const currentType = typeInputElement.value;
-    const currentMinPrice = HousingType[currentType.toUpperCase()].MIN_PRICE;
-
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: currentMinPrice,
-        max: MAX_PRICE,
-      },
-    });
-  };
-
-  const priceInputHandler = () => {
-    const newPrice = priceInputElement.value;
-    sliderElement.noUiSlider.set(newPrice);
-  };
-
-  typeInputElement.addEventListener('change', typeChangeHandler);
-  priceInputElement.addEventListener('change', priceInputHandler);
 };
 
 const disableActiveState = () => {

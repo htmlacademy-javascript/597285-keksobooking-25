@@ -1,5 +1,8 @@
 import {
-  getAdvertisements,
+  getData,
+} from './api.js';
+import {
+  NUMBER_OF_ADVERTISEMENTS,
 } from './data.js';
 
 import {
@@ -12,8 +15,8 @@ import {
 } from './map.js';
 
 disableActiveState();
-
-const advertisements = getAdvertisements();
-
 renderMap();
-renderSimilarAdvertisements(advertisements);
+
+getData((advertisements) => {
+  renderSimilarAdvertisements(advertisements.slice(0, NUMBER_OF_ADVERTISEMENTS));
+});
