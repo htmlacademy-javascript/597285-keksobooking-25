@@ -11,21 +11,21 @@ const closeModal = (modalElement) => {
   window.removeEventListener('click', closeModalHandler);
 };
 
-function closeModalHandler(modalElement) {
-  return (evt) => {
-    if (isEscapeKey(evt) || isClickEvent(evt)) {
-      evt.preventDefault();
-      closeModal(modalElement);
-    }
-  };
+function closeModalHandler(evt) {
+  const modalElement = document.querySelector('.success') || document.querySelector('.error');
+
+  if (isEscapeKey(evt) || isClickEvent(evt)) {
+    evt.preventDefault();
+    closeModal(modalElement);
+  }
 }
 
 const showSuccess = () => {
   const successElement = successTemplate.cloneNode(true);
 
   bodyElement.appendChild(successElement);
-  document.addEventListener('keydown', closeModalHandler(successElement));
-  window.addEventListener('click', closeModalHandler(successElement));
+  document.addEventListener('keydown', closeModalHandler);
+  window.addEventListener('click', closeModalHandler);
 };
 
 const showError = () => {
@@ -33,9 +33,9 @@ const showError = () => {
   const errorButtonElement = errorElement.querySelector('.error__button');
 
   bodyElement.appendChild(errorElement);
-  document.addEventListener('keydown', closeModalHandler(errorElement));
-  window.addEventListener('click', closeModalHandler(errorElement));
-  errorButtonElement.addEventListener('click', closeModalHandler(errorElement));
+  document.addEventListener('keydown', closeModalHandler);
+  window.addEventListener('click', closeModalHandler);
+  errorButtonElement.addEventListener('click', closeModalHandler);
 };
 
 export {

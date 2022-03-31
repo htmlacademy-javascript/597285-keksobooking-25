@@ -57,6 +57,11 @@ const MarkersIcomUrls = {
   STANDART_MARKER: '../img/pin.svg',
 };
 
+const LoadErrorPopup = {
+  MESSAGE: 'Произошла ошибка загрузки данных',
+  CSS: 'position: absolute; z-index: 1000; padding: 20px; border: 2px solid #d41919; color: #d41919; font-weight: bold; background: rgba(0,0,0,0.7); font-size: 20px; top: 5%; left: 50%; transform: translate(-50%, 0);',
+};
+
 export {
   HousingType,
   MAX_PRICE,
@@ -69,4 +74,5 @@ export {
   MainMarkerSize,
   MarkersIcomUrls,
   NUMBER_OF_ADVERTISEMENTS,
+  LoadErrorPopup,
 };
