@@ -62,6 +62,12 @@ const LoadErrorPopup = {
   CSS: 'position: absolute; z-index: 1000; padding: 20px; border: 2px solid #d41919; color: #d41919; font-weight: bold; background: rgba(0,0,0,0.7); font-size: 20px; top: 5%; left: 50%; transform: translate(-50%, 0);',
 };
 
+const PriceCategories = {
+  LOW: [0, 9999],
+  MIDDLE: [10000, 50000],
+  HIGH: [50001, MAX_PRICE],
+};
+
 export {
   HousingType,
   MAX_PRICE,
@@ -75,4 +81,5 @@ export {
   MarkersIcomUrls,
   NUMBER_OF_ADVERTISEMENTS,
   LoadErrorPopup,
+  PriceCategories,
 };
