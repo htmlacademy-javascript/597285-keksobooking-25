@@ -1,5 +1,6 @@
 import {
   PriceCategories,
+  RERENDER_DELAY,
 } from './data.js';
 import {
   gettedAdvertisements,
@@ -7,6 +8,9 @@ import {
 import {
   renderSimilarAdvertisements,
 } from './map.js';
+import {
+  debounce,
+} from './util.js';
 
 const mapFiltersContainerElement = document.querySelector('.map__filters');
 const mapFiltersContainerElements = Array.from(mapFiltersContainerElement.children);
@@ -83,7 +87,7 @@ const mapFiltersHandler = () => {
 };
 
 const initMapFilters = () => {
-  mapFiltersContainerElement.addEventListener('change', mapFiltersHandler);
+  mapFiltersContainerElement.addEventListener('change', debounce(() => mapFiltersHandler(), RERENDER_DELAY));
 };
 
 export {

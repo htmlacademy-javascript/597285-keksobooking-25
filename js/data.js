@@ -68,6 +68,8 @@ const PriceCategories = {
   HIGH: [50001, MAX_PRICE],
 };
 
+const RERENDER_DELAY = 500;
+
 export {
   HousingType,
   MAX_PRICE,
@@ -82,4 +84,5 @@ export {
   NUMBER_OF_ADVERTISEMENTS,
   LoadErrorPopup,
   PriceCategories,
+  RERENDER_DELAY,
 };
