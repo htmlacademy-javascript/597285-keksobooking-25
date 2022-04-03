@@ -1,7 +1,11 @@
+import {
+  LoadErrorPopup,
+} from './data.js';
+
 const mapElement = document.querySelector('.map__canvas');
 const messageElement = document.createElement('div');
-messageElement.textContent = 'Произошла ошибка загрузки данных';
-messageElement.style.cssText = 'position: absolute; z-index: 1000; padding: 20px; border: 2px solid #d41919; color: #d41919; font-weight: bold; background: rgba(0,0,0,0.7); font-size: 20px; top: 5%; left: 50%; transform: translate(-50%, 0);';
+messageElement.textContent = LoadErrorPopup.MESSAGE;
+messageElement.style.cssText = LoadErrorPopup.CSS;
 
 const getData = (onSuccess) => {
   fetch('https://25.javascript.pages.academy/keksobooking/data')

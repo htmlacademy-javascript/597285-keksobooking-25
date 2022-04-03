@@ -11,21 +11,21 @@ const closeModal = (modalElement) => {
   window.removeEventListener('click', closeModalHandler);
 };
 
-function closeModalHandler(modalElement) {
-  return (evt) => {
-    if (isEscapeKey(evt) || isClickEvent(evt)) {
-      evt.preventDefault();
-      closeModal(modalElement);
-    }
-  };
+function closeModalHandler(evt) {
+  const modalElement = document.querySelector('.success') || document.querySelector('.error');
+
+  if (isEscapeKey(evt) || isClickEvent(evt)) {
+    evt.preventDefault();
+    closeModal(modalElement);
+  }
 }
 
 const showSuccess = () => {
   const successElement = successTemplate.cloneNode(true);
 
   bodyElement.appendChild(successElement);
-  document.addEventListener('keydown', closeModalHandler(successElement));
-  window.addEventListener('click', closeModalHandler(successElement));
+  document.addEventListener('keydown', closeModalHandler);
+  window.addEventListener('click', closeModalHandler);
 };
 
 const showError = () => {
@@ -33,12 +33,31 @@ const showError = () => {
   const errorButtonElement = errorElement.querySelector('.error__button');
 
   bodyElement.appendChild(errorElement);
-  document.addEventListener('keydown', closeModalHandler(errorElement));
-  window.addEventListener('click', closeModalHandler(errorElement));
-  errorButtonElement.addEventListener('click', closeModalHandler(errorElement));
+  document.addEventListener('keydown', closeModalHandler);
+  window.addEventListener('click', closeModalHandler);
+  errorButtonElement.addEventListener('click', closeModalHandler);
+};
+
+const debounce = (callback, timeoutDelay = 500) => {
+  // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+    // пока действие совершается чаще, чем переданная задержка timeoutDelay
+  };
 };
 
 export {
   showSuccess,
   showError,
+  debounce,
 };

@@ -1,4 +1,9 @@
 import {
+  initMapFilters,
+  mapFiltersContainerElement,
+  mapFiltersContainerElements,
+} from './filters.js';
+import {
   sendData
 } from './api.js';
 import {
@@ -19,8 +24,6 @@ import {
 
 const formElement = document.querySelector('.ad-form');
 const formFieldsetElements = formElement.querySelectorAll('fieldset');
-const mapFiltersContainerElement = document.querySelector('.map__filters');
-const mapFiltersContainerElements = Array.from(mapFiltersContainerElement.children);
 const priceInputElement = formElement.querySelector('#price');
 const addressInputElement = formElement.querySelector('#address');
 const sliderElement = formElement.querySelector('.ad-form__slider');
@@ -167,7 +170,6 @@ const createFormValidator = () => {
   };
 
   const resetForm = () => {
-    // evt.preventDefault();
     formElement.reset();
     pristine.reset();
     resetUiSlider();
@@ -175,7 +177,10 @@ const createFormValidator = () => {
     mapFiltersContainerElement.reset();
   };
 
-  resetButtonElement.addEventListener('click', resetForm);
+  resetButtonElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetForm();
+  });
 
   formElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -187,6 +192,7 @@ const createFormValidator = () => {
         () => {
           unblockSubmitButton();
           resetForm();
+          resetMap();
           showSuccess();
         },
         () => {
@@ -212,12 +218,14 @@ const enableActiveState = () => {
   formElement.classList.remove('ad-form--disabled');
   formFieldsetElements.forEach((item) => item.removeAttribute('disabled', ''));
 
-  mapFiltersContainerElement.classList.remove('map__filters--disabled');
-
-  mapFiltersContainerElements.forEach((element) => element.removeAttribute('disabled', ''));
-
   fillAddressInput(MapStartLocation.LAT, MapStartLocation.LNG);
   createNoUiSlider();
+};
+
+const enableMapFilters = () => {
+  mapFiltersContainerElement.classList.remove('map__filters--disabled');
+  mapFiltersContainerElements.forEach((element) => element.removeAttribute('disabled', ''));
+  initMapFilters();
 };
 
 export {
@@ -225,4 +233,6 @@ export {
   enableActiveState,
   disableActiveState,
   fillAddressInput,
+  enableMapFilters,
+  mapFiltersContainerElement,
 };
