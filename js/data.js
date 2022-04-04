@@ -70,6 +70,10 @@ const PriceCategories = {
 
 const RERENDER_DELAY = 500;
 
+const IMAGE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+const DEFAULT_AVATAR = 'img/muffin-grey.svg';
+
 export {
   HousingType,
   MAX_PRICE,
@@ -85,4 +89,6 @@ export {
   LoadErrorPopup,
   PriceCategories,
   RERENDER_DELAY,
+  IMAGE_TYPES,
+  DEFAULT_AVATAR,
 };

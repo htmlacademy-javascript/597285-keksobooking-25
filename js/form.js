@@ -4,7 +4,7 @@ import {
   mapFiltersContainerElements,
 } from './filters.js';
 import {
-  sendData
+  sendData,
 } from './api.js';
 import {
   HousingType,
@@ -13,14 +13,23 @@ import {
   CapacityMap,
   LOCATION_ACCURACY,
   MapStartLocation,
+  DEFAULT_AVATAR,
 } from './data.js';
 import {
-  resetMap
+  resetMap,
 } from './map.js';
 import {
   showError,
-  showSuccess
+  showSuccess,
 } from './util.js';
+import {
+  avatarPreviewElement,
+  initAvatarLoader,
+} from './avatar.js';
+import {
+  initPhotoLoader,
+  photoPreviewContainerElement,
+} from './photo.js';
 
 const formElement = document.querySelector('.ad-form');
 const formFieldsetElements = formElement.querySelectorAll('fieldset');
@@ -175,6 +184,8 @@ const createFormValidator = () => {
     resetUiSlider();
     resetMap();
     mapFiltersContainerElement.reset();
+    avatarPreviewElement.src = DEFAULT_AVATAR;
+    photoPreviewContainerElement.innerHTML = '';
   };
 
   resetButtonElement.addEventListener('click', (evt) => {
@@ -220,6 +231,8 @@ const enableActiveState = () => {
 
   fillAddressInput(MapStartLocation.LAT, MapStartLocation.LNG);
   createNoUiSlider();
+  initAvatarLoader();
+  initPhotoLoader();
 };
 
 const enableMapFilters = () => {
