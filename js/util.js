@@ -56,8 +56,20 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
+const fileUploadHandler = (fileChooserElement, previewElement, allowedFileTypes) => {
+  const file = fileChooserElement.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = allowedFileTypes.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    previewElement.src = URL.createObjectURL(file);
+  }
+};
+
 export {
   showSuccess,
   showError,
   debounce,
+  fileUploadHandler,
 };
