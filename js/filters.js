@@ -56,7 +56,7 @@ const verificateFeatures = (featuresFilter, featuresAdvertisement) => {
     if (featuresAdvertisement) {
       // тут не получается forEach использовать - он не прерывается от return
       for (let i = 0; i < featuresFilter.length; i++) {
-        const result = featuresAdvertisement.find((item) => item === featuresFilter[i]);
+        const result = featuresAdvertisement.some((item) => item === featuresFilter[i]);
         if (!result) {
           return false;
         }
