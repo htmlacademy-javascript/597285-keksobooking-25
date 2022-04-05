@@ -114,7 +114,7 @@ const createFormValidator = () => {
   titleInputElement.removeAttribute('maxlength');
   priceInputElement.removeAttribute('max');
 
-  const pristine = new Pristine(formElement, {
+  const pristine = new window.Pristine(formElement, {
     classTo: 'ad-form__element',
     errorTextParent: 'ad-form__element',
   });
