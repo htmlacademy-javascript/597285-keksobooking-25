@@ -41,7 +41,7 @@ const submitButtonElement = formElement.querySelector('.ad-form__submit');
 const resetButtonElement = formElement.querySelector('.ad-form__reset');
 
 const fillAddressInput = (lat, lng) => {
-  addressInputElement.value = `${lat.toFixed(LOCATION_ACCURACY)} ${lng.toFixed(LOCATION_ACCURACY)}`;
+  addressInputElement.value = `${lat.toFixed(LOCATION_ACCURACY)}, ${lng.toFixed(LOCATION_ACCURACY)}`;
 };
 
 const createNoUiSlider = () => {
@@ -57,12 +57,7 @@ const createNoUiSlider = () => {
     step: 1,
     connect: 'lower',
     format: {
-      to: (value) => {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
+      to: (value) => Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
       from: (value) => parseFloat(value),
     },
   });
@@ -182,8 +177,8 @@ const createFormValidator = () => {
     formElement.reset();
     pristine.reset();
     resetUiSlider();
-    resetMap();
     mapFiltersContainerElement.reset();
+    resetMap();
     avatarPreviewElement.src = DEFAULT_AVATAR;
     photoPreviewContainerElement.innerHTML = '';
   };
@@ -203,7 +198,6 @@ const createFormValidator = () => {
         () => {
           unblockSubmitButton();
           resetForm();
-          resetMap();
           showSuccess();
         },
         () => {

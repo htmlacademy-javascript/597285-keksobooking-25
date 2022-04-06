@@ -16,7 +16,7 @@ import {
   createAdvertisementCard,
 } from './similar-ads.js';
 import {
-  verificationAdvertisement,
+  verifyAdvertisement,
 } from './filters.js';
 import { gettedAdvertisements } from './main.js';
 
@@ -82,7 +82,7 @@ const renderSimilarAdvertisements = (advertisements) => {
     marker.addTo(markerGroup).bindPopup(createAdvertisementCard(advertisement));
   };
 
-  const filteredAdvertisements = advertisements.slice().filter(verificationAdvertisement).slice(0, NUMBER_OF_ADVERTISEMENTS);
+  const filteredAdvertisements = advertisements.slice().filter(verifyAdvertisement).slice(0, NUMBER_OF_ADVERTISEMENTS);
 
   filteredAdvertisements.forEach((advertisement) => {
     createMarker(advertisement);
